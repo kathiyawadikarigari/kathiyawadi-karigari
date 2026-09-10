@@ -1,4 +1,4 @@
-const SUPABASE_URL = "https://ilzoosmktbjdyinaoubb.supabase.co/rest/v1/";
+const SUPABASE_URL = "https://ilzoosmktbjdyinaoubb.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable__BsYkisgx2O0jr_Ms1LRGw_wD7EeZoc";
 
 const supabaseClient = window.supabase.createClient(
