@@ -122,11 +122,26 @@ function renderCart(){
 }
 function removeCart(i){ cart.splice(i,1); saveCart(); }
 
-function openCheckout(){
-  if(!cart.length){ alert("Your cart is empty."); return; }
+async function openCheckout(){
+  if(!cart.length){
+    alert("Your cart is empty.");
+    return;
+  }
+
+  const { data: { session } } = await supabaseClient.auth.getSession();
+
+  if(!session){
+    $("#cartDrawer").classList.add("hidden");
+    $("#checkoutModal").classList.remove("hidden");
+    $("#authNotice").textContent =
+      "Please create an account or login before placing your order.";
+    return;
+  }
+
   $("#cartDrawer").classList.add("hidden");
   $("#checkoutModal").classList.remove("hidden");
-  $("#authNotice").textContent = "Version 1 placeholder: connect Supabase Auth before publishing. Checkout should require login.";
+  $("#authNotice").textContent =
+    `Logged in as ${session.user.email}`;
 }
 
 async function submitOrder(e){
@@ -180,3 +195,118 @@ $("#checkoutForm").addEventListener("submit",submitOrder);
 
 renderProducts();
 renderCart();
+async function checkAuth() {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+
+  updateAuthUI(session);
+}
+
+function updateAuthUI(session) {
+  const status = $("#authStatus");
+  const name = $("#authName");
+  const email = $("#authEmail");
+  const password = $("#authPassword");
+  const signupBtn = $("#signupBtn");
+  const loginBtn = $("#loginBtn");
+  const logoutBtn = $("#logoutBtn");
+
+  if (session) {
+    status.textContent = `Logged in as ${session.user.email}`;
+
+    email.value = session.user.email;
+    email.disabled = true;
+    password.value = "";
+    password.disabled = true;
+    name.disabled = true;
+
+    signupBtn.style.display = "none";
+    loginBtn.style.display = "none";
+    logoutBtn.style.display = "inline-block";
+  } else {
+    status.textContent = "Please login or create an account before placing your order.";
+
+    email.disabled = false;
+    password.disabled = false;
+    name.disabled = false;
+
+    signupBtn.style.display = "inline-block";
+    loginBtn.style.display = "inline-block";
+    logoutBtn.style.display = "none";
+  }
+}
+
+async function signupCustomer() {
+  const name = $("#authName").value.trim();
+  const email = $("#authEmail").value.trim();
+  const password = $("#authPassword").value;
+
+  if (!name || !email || password.length < 6) {
+    alert("Please enter your name, email, and a password of at least 6 characters.");
+    return;
+  }
+
+  const { data, error } = await supabaseClient.auth.signUp({
+    email,
+    password,
+    options: {
+      data: {
+        full_name: name
+      }
+    }
+  });
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  if (data.session) {
+    alert("Account created successfully.");
+    updateAuthUI(data.session);
+  } else {
+    alert("Account created. Please check your email to confirm your account, then login.");
+  }
+}
+
+async function loginCustomer() {
+  const email = $("#authEmail").value.trim();
+  const password = $("#authPassword").value;
+
+  if (!email || !password) {
+    alert("Please enter your email and password.");
+    return;
+  }
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  alert("Login successful.");
+  updateAuthUI(data.session);
+}
+
+async function logoutCustomer() {
+  const { error } = await supabaseClient.auth.signOut();
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  updateAuthUI(null);
+}
+$("#signupBtn").addEventListener("click", signupCustomer);
+$("#loginBtn").addEventListener("click", loginCustomer);
+$("#logoutBtn").addEventListener("click", logoutCustomer);
+
+supabaseClient.auth.onAuthStateChange((_event, session) => {
+  updateAuthUI(session);
+});
+
+checkAuth();
