@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Kathiyawadi Karigari — personalized hand-embroidered gifts.">
+  <title>Kathiyawadi Karigari | Your Story. Our Karigari.</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Kathiyawadi Karigari home">
+      <img src="assets/logo.png" alt="Kathiyawadi Karigari logo">
+    </a>
+    <nav>
+      <a href="#home">Home</a>
+      <a href="#shop">Shop</a>
+      <a href="#about">About</a>
+      <button id="cartBtn" class="cart-button">Cart <span id="cartCount">0</span></button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">HAND-EMBROIDERED • PERSONALIZED • MADE WITH CARE</p>
+        <h1>Your Story.<br><span>Our Karigari.</span></h1>
+        <p>Personalized hand embroidery made into gifts that carry your memories.</p>
+        <a class="primary-btn" href="#shop">Explore hoops</a>
+      </div>
+      <div class="hero-card">
+        <img src="assets/couple-hoop-without-tassels.jpeg" alt="Personalized couple embroidery hoop">
+      </div>
+    </section>
+
+    <section id="shop" class="section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">SHOP</p>
+          <h2>Couple hoops</h2>
+        </div>
+        <p>Choose a design, select your size, and personalize it with your story.</p>
+      </div>
+      <div id="productGrid" class="product-grid"></div>
+    </section>
+
+    <section id="about" class="section about">
+      <div>
+        <p class="eyebrow">KATHIYAWADI KARIGARI</p>
+        <h2>Made for meaningful moments.</h2>
+      </div>
+      <p>Every piece is personalized for you. Names, dates, messages and design-specific details can be requested at checkout.</p>
+    </section>
+  </main>
+
+  <footer>
+    <strong>Kathiyawadi Karigari</strong>
+    <span>Your Story. Our Karigari.</span>
+    <a href="https://wa.me/919426931089" target="_blank" rel="noopener">WhatsApp: 9426931089</a>
+  </footer>
+
+  <div id="productModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-panel">
+      <button class="close" data-close="productModal" aria-label="Close">×</button>
+      <div class="product-detail">
+        <img id="modalImage" src="" alt="">
+        <div>
+          <p class="eyebrow" id="modalCode"></p>
+          <h2 id="modalTitle"></h2>
+          <p id="modalDescription"></p>
+          <label>Size
+            <select id="sizeSelect"></select>
+          </label>
+          <div class="price" id="modalPrice"></div>
+          <div id="customFields" class="custom-fields"></div>
+          <button id="addToCartBtn" class="primary-btn full">Add to cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <aside id="cartDrawer" class="drawer hidden" aria-label="Shopping cart">
+    <div class="drawer-head">
+      <h2>Your cart</h2>
+      <button class="close" data-close="cartDrawer" aria-label="Close">×</button>
+    </div>
+    <div id="cartItems"></div>
+    <div class="cart-total"><span>Total</span><strong id="cartTotal">₹0</strong></div>
+    <button id="checkoutBtn" class="primary-btn full">Checkout</button>
+    <p class="small">Login is required at checkout. Payment and order confirmation are handled after login.</p>
+  </aside>
+
+  <div id="checkoutModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+    <div class="modal-panel checkout-panel">
+      <button class="close" data-close="checkoutModal" aria-label="Close">×</button>
+      <p class="eyebrow">CHECKOUT</p>
+      <h2 id="checkoutTitle">Your details</h2>
+      <div id="authNotice" class="notice"></div>
+
+      <form id="checkoutForm">
+        <div class="form-grid">
+          <label>Full name<input name="name" required></label>
+          <label>Mobile<input name="mobile" inputmode="tel" required></label>
+          <label>Email<input name="email" type="email" required></label>
+          <label>Pincode<input name="pincode" inputmode="numeric" required></label>
+        </div>
+        <label>Address<textarea name="address" rows="3" required></textarea></label>
+        <label>Customization details<textarea name="customization" rows="5" placeholder="Enter names, date, message, or any design-specific instruction."></textarea></label>
+
+        <div class="payment-box">
+          <strong>UPI / QR payment</strong>
+          <p>Put your final UPI ID and QR image here before publishing. Do not put secret keys in this file.</p>
+          <code>YOUR-UPI-ID@BANK</code>
+        </div>
+        <button class="primary-btn full" type="submit">Create order & WhatsApp</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
