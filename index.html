@@ -96,7 +96,36 @@
       <p class="eyebrow">CHECKOUT</p>
       <h2 id="checkoutTitle">Your details</h2>
       <div id="authNotice" class="notice"></div>
+<div id="authBox" class="payment-box">
+  <strong>Customer Login</strong>
+  <p id="authStatus">Please login or create an account before placing your order.</p>
 
+  <label>Full name
+    <input id="authName" type="text" placeholder="Your full name">
+  </label>
+
+  <label>Email
+    <input id="authEmail" type="email" placeholder="Your email" required>
+  </label>
+
+  <label>Password
+    <input id="authPassword" type="password" placeholder="Minimum 6 characters" required>
+  </label>
+
+  <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;">
+    <button type="button" class="primary-btn" id="signupBtn">
+      Create account
+    </button>
+
+    <button type="button" class="primary-btn" id="loginBtn">
+      Login
+    </button>
+
+    <button type="button" id="logoutBtn" style="display:none;">
+      Logout
+    </button>
+  </div>
+</div>
       <form id="checkoutForm">
         <div class="form-grid">
           <label>Full name<input name="name" required></label>
